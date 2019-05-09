@@ -1,6 +1,6 @@
 package ${packagePath}.service;
 
-import com.rltx.common.vo.CommParamsVo;
+import ${packagePath}.model.CommParams;
 import ${packagePath}.entity.${entityList[0].upperCaseHumpName}Entity;
 import ${packagePath}.vo.${entityList[0].upperCaseHumpName}Vo;
 
@@ -49,17 +49,17 @@ public interface I${entityList[0].upperCaseHumpName}Service {
 
     /**
     * 查询记录
-    * @param code 记录编码
+    * @param id 记录编码
     * @return ${entityList[0].upperCaseHumpName}Entity 记录po
     */
-    ${entityList[0].upperCaseHumpName}Entity get(String code);
+    ${entityList[0].upperCaseHumpName}Entity get(Long id);
 
     /**
     * 删除记录
-    * @param code 记录编码
+    * @param id 记录编码
     * @param commParams 共通字段
     * @return ${entityList[0].upperCaseHumpName}Entity 记录po
     */
-    ${entityList[0].upperCaseHumpName}Entity delete(String code, CommParams commParams);
+    ${entityList[0].upperCaseHumpName}Entity delete(Long id, CommParams commParams);
 
 }

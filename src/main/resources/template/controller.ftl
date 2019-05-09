@@ -1,18 +1,26 @@
 package ${packagePath}.controller;
 
-import com.rltx.common.vo.CommParamsVo;
 import ${packagePath}.controller.converter.*;
 import ${packagePath}.service.*;
-import com.wl.framework.result.ListResult;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
-import com.rltx.framework.log.support.BusinessException;
+import ${packagePath}.model.Limit;
+import ${packagePath}.model.Page;
+import ${packagePath}.model.request.PayRequest;
+import ${packagePath}.model.response.PayResponse;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.groups.Default;
+import java.math.BigDecimal;
 
 import javax.annotation.Resource;
 import java.util.*;
 import ${packagePath}.vo.${entityList[0].upperCaseHumpName}Vo;
 import ${packagePath}.entity.${entityList[0].upperCaseHumpName}Entity;
 import ${packagePath}.result.${entityList[0].upperCaseHumpName}Result;
+import ${packagePath}.result.${entityList[0].upperCaseHumpName}Result;
+import ${packagePath}.controller.base.BaseController;
 
 /**
  * ${entityList[0].tableRemark}
@@ -28,7 +36,7 @@ public class ${entityList[0].upperCaseHumpName}Controller extends BaseController
 
     @ApiOperation(value = "${entityList[0].tableRemark}列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST, consumes = "application/json")
-    public SecRiskCtrlResponse<Page<${entityList[0].upperCaseHumpName}Result>> list(@Validated({ SecRiskCtrlRequest.Page.class, Default.class }) @RequestBody SecRiskCtrlRequest<${entityList[0].upperCaseHumpName}Vo> params) {
+    public PayResponse<Page<${entityList[0].upperCaseHumpName}Result>> list(@Validated({ PayRequest.Page.class, Default.class }) @RequestBody PayRequest<${entityList[0].upperCaseHumpName}Vo> params) {
         // 构建分页对象
         Limit limit = new Limit(params.getPage(), params.getSize());
         // 统计${entityList[0].tableRemark}数据条数
@@ -45,7 +53,7 @@ public class ${entityList[0].upperCaseHumpName}Controller extends BaseController
 
         // 封装返回对象
         Page<${entityList[0].upperCaseHumpName}Result> page = new Page<${entityList[0].upperCaseHumpName}Result>(${entityList[0].humpName}ResultList, count.intValue(), params.getSize(), params.getPage());
-        SecRiskCtrlResponse<Page<${entityList[0].upperCaseHumpName}Result>> response = new SecRiskCtrlResponse<Page<${entityList[0].upperCaseHumpName}Result>>();
+        PayResponse<Page<${entityList[0].upperCaseHumpName}Result>> response = new PayResponse<Page<${entityList[0].upperCaseHumpName}Result>>();
         response.setResult(page);
         response.setIsSuccess(Boolean.TRUE);
         return response;
@@ -53,7 +61,7 @@ public class ${entityList[0].upperCaseHumpName}Controller extends BaseController
 
     @ApiOperation(value = "获取${entityList[0].tableRemark}")
     @RequestMapping(value = "/get", method = RequestMethod.POST, consumes = "application/json")
-    public SecRiskCtrlResponse<${entityList[0].upperCaseHumpName}Result> get(@Validated({ Default.class }) @RequestBody SecRiskCtrlRequest<${entityList[0].upperCaseHumpName}Vo> params) {
+    public PayResponse<${entityList[0].upperCaseHumpName}Result> get(@Validated({ Default.class }) @RequestBody PayRequest<${entityList[0].upperCaseHumpName}Vo> params) {
         // 获取${entityList[0].tableRemark}
         ${entityList[0].upperCaseHumpName}Entity entity = ${entityList[0].humpName}Service.get(params.getParams().getCode());
         if (Objects.isNull(entity)) {
@@ -62,7 +70,7 @@ public class ${entityList[0].upperCaseHumpName}Controller extends BaseController
 
         ${entityList[0].upperCaseHumpName}Result ${entityList[0].humpName}Result = ${entityList[0].upperCaseHumpName}ControllerConverter.toResult(entity);
 
-        SecRiskCtrlResponse<${entityList[0].upperCaseHumpName}Result> response = new SecRiskCtrlResponse<${entityList[0].upperCaseHumpName}Result>();
+        PayResponse<${entityList[0].upperCaseHumpName}Result> response = new PayResponse<${entityList[0].upperCaseHumpName}Result>();
         response.setResult(${entityList[0].humpName}Result);
         response.setIsSuccess(Boolean.TRUE);
         return response;
@@ -70,12 +78,12 @@ public class ${entityList[0].upperCaseHumpName}Controller extends BaseController
 
     @ApiOperation(value = "新建${entityList[0].tableRemark}信息")
     @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
-    public SecRiskCtrlResponse<${entityList[0].upperCaseHumpName}Result> add(@Validated({ Default.class, ${entityList[0].upperCaseHumpName}Vo.Create.class, ${entityList[0].upperCaseHumpName}Vo.Update.class }) @RequestBody SecRiskCtrlRequest<${entityList[0].upperCaseHumpName}Vo> params) {
+    public PayResponse<${entityList[0].upperCaseHumpName}Result> add(@Validated({ Default.class, ${entityList[0].upperCaseHumpName}Vo.Create.class, ${entityList[0].upperCaseHumpName}Vo.Update.class }) @RequestBody PayRequest<${entityList[0].upperCaseHumpName}Vo> params) {
         // 新建${entityList[0].tableRemark}
         ${entityList[0].upperCaseHumpName}Entity entity = ${entityList[0].humpName}Service.insert(params.getParams(), super.getCommParams());
         ${entityList[0].upperCaseHumpName}Result viewModel = ${entityList[0].upperCaseHumpName}ControllerConverter.toResult(entity);
 
-        SecRiskCtrlResponse<${entityList[0].upperCaseHumpName}Result> response = new SecRiskCtrlResponse<${entityList[0].upperCaseHumpName}Result>();
+        PayResponse<${entityList[0].upperCaseHumpName}Result> response = new PayResponse<${entityList[0].upperCaseHumpName}Result>();
         response.setResult(viewModel);
         response.setIsSuccess(Boolean.TRUE);
         return response;
@@ -83,12 +91,12 @@ public class ${entityList[0].upperCaseHumpName}Controller extends BaseController
 
     @ApiOperation(value = "编辑${entityList[0].tableRemark}信息")
     @RequestMapping(value = "/modify", method = RequestMethod.POST, consumes = "application/json")
-    public SecRiskCtrlResponse<${entityList[0].upperCaseHumpName}Result> modify(@Validated({ Default.class, ${entityList[0].upperCaseHumpName}Vo.Create.class, ${entityList[0].upperCaseHumpName}Vo.Update.class }) @RequestBody SecRiskCtrlRequest<${entityList[0].upperCaseHumpName}Vo> params) {
+    public PayResponse<${entityList[0].upperCaseHumpName}Result> modify(@Validated({ Default.class, ${entityList[0].upperCaseHumpName}Vo.Create.class, ${entityList[0].upperCaseHumpName}Vo.Update.class }) @RequestBody PayRequest<${entityList[0].upperCaseHumpName}Vo> params) {
         // 编辑${entityList[0].tableRemark}
         ${entityList[0].upperCaseHumpName}Entity entity = ${entityList[0].humpName}Service.modify(params.getParams(), super.getCommParams());
         ${entityList[0].upperCaseHumpName}Result viewModel = ${entityList[0].upperCaseHumpName}ControllerConverter.toResult(entity);
 
-        SecRiskCtrlResponse<${entityList[0].upperCaseHumpName}Result> response = new SecRiskCtrlResponse<${entityList[0].upperCaseHumpName}Result>();
+        PayResponse<${entityList[0].upperCaseHumpName}Result> response = new PayResponse<${entityList[0].upperCaseHumpName}Result>();
         response.setResult(viewModel);
         response.setIsSuccess(Boolean.TRUE);
         return response;
@@ -96,19 +104,19 @@ public class ${entityList[0].upperCaseHumpName}Controller extends BaseController
 
     @ApiOperation(value = "删除${entityList[0].tableRemark}信息")
     @RequestMapping(value = "/delete", method = RequestMethod.POST, consumes = "application/json")
-    public SecRiskCtrlResponse<${entityList[0].upperCaseHumpName}Result> delete(@Validated({ Default.class, ${entityList[0].upperCaseHumpName}Vo.Delete.class}) @RequestBody SecRiskCtrlRequest<${entityList[0].upperCaseHumpName}Vo> params) {
+    public PayResponse<${entityList[0].upperCaseHumpName}Result> delete(@Validated({ Default.class, ${entityList[0].upperCaseHumpName}Vo.Delete.class}) @RequestBody PayRequest<${entityList[0].upperCaseHumpName}Vo> params) {
         // 删除${entityList[0].tableRemark}
         ${entityList[0].upperCaseHumpName}Entity entity = ${entityList[0].humpName}Service.delete(params.getParams().getCode(), super.getCommParams());
         ${entityList[0].upperCaseHumpName}Result viewModel = ${entityList[0].upperCaseHumpName}ControllerConverter.toResult(entity);
 
-        SecRiskCtrlResponse<${entityList[0].upperCaseHumpName}Result> response = new SecRiskCtrlResponse<${entityList[0].upperCaseHumpName}Result>();
+        PayResponse<${entityList[0].upperCaseHumpName}Result> response = new PayResponse<${entityList[0].upperCaseHumpName}Result>();
         response.setResult(viewModel);
         response.setIsSuccess(Boolean.TRUE);
         return response;
     }
 
-    private SecRiskCtrlResponse toResult(Boolean success) {
-        SecRiskCtrlResponse response = new SecRiskCtrlResponse();
+    private PayResponse toResult(Boolean success) {
+        PayResponse response = new PayResponse();
         response.setIsSuccess(success);
         return response;
     }

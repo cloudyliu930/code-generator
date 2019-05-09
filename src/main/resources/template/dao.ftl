@@ -17,10 +17,10 @@ public interface ${entityList[0].upperCaseHumpName}Mapper {
 
     /**
      * 根据查询条件获取Entity
-     * @param code => 记录编码
+     * @param id => 记录编码
      * @return ${entityList[0].upperCaseHumpName}Entity  POJO类
      */
-    ${entityList[0].upperCaseHumpName}Entity select(@Param("code") String code);
+    ${entityList[0].upperCaseHumpName}Entity select(@Param("id") Long id);
 
     /**
      * 根据条件获取Entity List

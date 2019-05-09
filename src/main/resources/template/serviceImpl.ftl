@@ -1,19 +1,18 @@
 package ${packagePath}.service.impl;
 
-import com.rltx.common.service.IGenerationCodingService;
-import com.rltx.framework.log.support.BusinessException;
+import ${packagePath}.model.CommParams;
 import ${packagePath}.service.I${entityList[0].upperCaseHumpName}Service;
-import ${packagePath}.mapper.${entityList[0].upperCaseHumpName}Mapper;
+import ${packagePath}.dao.${entityList[0].upperCaseHumpName}Mapper;
 import ${packagePath}.service.converter.${entityList[0].upperCaseHumpName}ServiceConverter;
+import ${packagePath}.util.code.ResCode;
 import ${packagePath}.vo.${entityList[0].upperCaseHumpName}Vo;
 import ${packagePath}.entity.${entityList[0].upperCaseHumpName}Entity;
 import org.springframework.stereotype.Service;
+import ${packagePath}.exception.ServiceException;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * ${entityList[0].tableName} service implements
@@ -24,9 +23,6 @@ import java.util.Map;
 @Transactional(readOnly = false, rollbackFor = Exception.class)
 public class ${entityList[0].upperCaseHumpName}ServiceImpl implements I${entityList[0].upperCaseHumpName}Service {
 
-    @Resource(name = "generationCodingService")
-    private GenerationCodingService generationCodingService;
-
     @Resource(name = "${entityList[0].humpName}Mapper")
     private ${entityList[0].upperCaseHumpName}Mapper ${entityList[0].humpName}Mapper;
 
@@ -35,7 +31,6 @@ public class ${entityList[0].upperCaseHumpName}ServiceImpl implements I${entityL
         // 参数校验
 
         ${entityList[0].upperCaseHumpName}Entity entity = ${entityList[0].upperCaseHumpName}ServiceConverter.toEntity(vo, commParams);
-        entity.setCode(generationCodingService.generateCurrencyCode());
         entity.setDisabled(false);
         ${entityList[0].humpName}Mapper.insert(entity);
 
@@ -44,10 +39,10 @@ public class ${entityList[0].upperCaseHumpName}ServiceImpl implements I${entityL
 
     @Override
     public ${entityList[0].upperCaseHumpName}Entity modify(${entityList[0].upperCaseHumpName}Vo vo, CommParams commParams) {
-        ${entityList[0].upperCaseHumpName}Entity oldEntity = this.get(vo.getCode());
+        ${entityList[0].upperCaseHumpName}Entity oldEntity = this.get(vo.getId());
         if (Objects.isNull(oldEntity)) {
-            throw new ServiceException(ResultCodeEnum.ERR_NOEXIST.getCode(), String.format("参数：%s 共通参数：%s 错误信息：%s",
-                    vo, commParams, ResultCodeEnum.ERR_NOEXIST.getDesc()));
+            throw new ServiceException(ResCode.ERR_NOEXIST.getCode(), String.format("参数：%s 共通参数：%s 错误信息：%s",
+                    vo, commParams, ResCode.ERR_NOEXIST.getDesc()));
         }
         // 参数校验
 
@@ -76,8 +71,8 @@ public class ${entityList[0].upperCaseHumpName}ServiceImpl implements I${entityL
     }
 
     @Override
-    public ${entityList[0].upperCaseHumpName}Entity get(String code) {
-        ${entityList[0].upperCaseHumpName}Entity entity = ${entityList[0].humpName}Mapper.select(code);
+    public ${entityList[0].upperCaseHumpName}Entity get(Long id) {
+        ${entityList[0].upperCaseHumpName}Entity entity = ${entityList[0].humpName}Mapper.select(id);
         if (entity == null) {
             return null;
         }
@@ -85,15 +80,15 @@ public class ${entityList[0].upperCaseHumpName}ServiceImpl implements I${entityL
     }
 
     @Override
-    public ${entityList[0].upperCaseHumpName}Entity delete(String code, CommParams commParams) {
-        ${entityList[0].upperCaseHumpName}Entity oldEntity = this.get(code);
+    public ${entityList[0].upperCaseHumpName}Entity delete(Long id, CommParams commParams) {
+        ${entityList[0].upperCaseHumpName}Entity oldEntity = this.get(id);
         if (Objects.isNull(oldEntity)) {
-            throw new ServiceException(ResultCodeEnum.ERR_NOEXIST.getCode(), String.format("参数：%s 共通参数：%s 错误信息：%s",
-                    code, commParams, ResultCodeEnum.ERR_NOEXIST.getDesc()));
+            throw new ServiceException(ResCode.ERR_NOEXIST.getCode(), String.format("参数：%s 共通参数：%s 错误信息：%s",
+                    id, commParams, ResCode.ERR_NOEXIST.getDesc()));
         }
 
         ${entityList[0].upperCaseHumpName}Entity entity = ${entityList[0].upperCaseHumpName}ServiceConverter.package${entityList[0].upperCaseHumpName}EntityByDelete(oldEntity, commParams);
-        entity.setCode(code);
+        entity.setId(id);
         ${entityList[0].humpName}Mapper.delete(entity);
 
         return entity;

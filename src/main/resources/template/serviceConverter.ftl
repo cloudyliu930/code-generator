@@ -2,7 +2,8 @@ package ${packagePath}.service.converter;
 
 import ${packagePath}.entity.${entityList[0].upperCaseHumpName}Entity;
 import ${packagePath}.vo.${entityList[0].upperCaseHumpName}Vo;
-import com.rltx.framework.util.BeanHelper;
+import ${packagePath}.model.CommParams;
+import ${packagePath}.util.BeanLocalUtils;
 
 /**
  * ${entityList[0].tableName} service转换类
@@ -34,8 +35,8 @@ public class ${entityList[0].upperCaseHumpName}ServiceConverter {
      * @return ${entityList[0].upperCaseHumpName}Entity
      */
     public static ${entityList[0].upperCaseHumpName}Entity package${entityList[0].upperCaseHumpName}EntityByModify(${entityList[0].upperCaseHumpName}Entity entity, ${entityList[0].upperCaseHumpName}Vo vo, CommParams commParams) {
-        entity.setModifyBy(commParams.getModifyBy());
-        entity.setModifyTime(commParams.getModifyTime());
+        entity.setUpdator(commParams.getUpdator());
+        entity.setUpdateTime(commParams.getUpdateTime());
 
         return entity;
     }
@@ -49,8 +50,8 @@ public class ${entityList[0].upperCaseHumpName}ServiceConverter {
     public static ${entityList[0].upperCaseHumpName}Entity package${entityList[0].upperCaseHumpName}EntityByDelete(${entityList[0].upperCaseHumpName}Entity entity, CommParams commParams) {
 
         entity.setDisabled(Boolean.TRUE);
-        entity.setModifyBy(commParams.getModifyBy());
-        entity.setModifyTime(commParams.getModifyTime());
+        entity.setUpdator(commParams.getUpdator());
+        entity.setUpdateTime(commParams.getUpdateTime());
 
         return entity;
     }

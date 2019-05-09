@@ -159,7 +159,7 @@ public class AutoCreateHandler {
             // 写入service implements
             writeFile(filePath + File.separator + "auto_create" + File.separator + "service" + File.separator + "impl", NameUtils.upperCaseHumpName(columnToEntity.get(0).getTableName()) + "ServiceImpl.java", TemplateUtils.toString(map, "serviceImpl.ftl"));
             // 写入service implements
-            writeFile(filePath + File.separator + "auto_create" + File.separator + "solr", NameUtils.upperCaseHumpName(columnToEntity.get(0).getTableName()) + "SolrEntity.java", TemplateUtils.toString(map, "solr.ftl"));
+            // writeFile(filePath + File.separator + "auto_create" + File.separator + "solr", NameUtils.upperCaseHumpName(columnToEntity.get(0).getTableName()) + "SolrEntity.java", TemplateUtils.toString(map, "solr.ftl"));
 
         }
 

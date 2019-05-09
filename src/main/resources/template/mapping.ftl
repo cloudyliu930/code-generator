@@ -31,7 +31,7 @@
         FROM
             ${entityList[0].databaseName}.${entityList[0].tableName}
         WHERE
-            code = ${r'#'}{code}
+            id = ${r'#'}{id}
         AND
             disabled = 0
     </select>
@@ -138,10 +138,10 @@
         </#if>
         </#if>
         </#list>
-            modify_by = ${r'#'}{entity.modifyBy},
-            modify_time = ${r'#'}{entity.modifyTime}
+            updator = ${r'#'}{entity.updator},
+            update_time = ${r'#'}{entity.updateTime}
         WHERE
-            code = ${r'#'}{entity.code}
+            id = ${r'#'}{entity.id}
     </update>
 
     <update id="delete">
@@ -149,10 +149,10 @@
             ${entityList[0].databaseName}.${entityList[0].tableName}
         SET
             disabled = 1,
-            modify_by = ${r'#'}{entity.modifyBy},
-            modify_time = ${r'#'}{entity.modifyTime}
+            updator = ${r'#'}{entity.updator},
+            update_time = ${r'#'}{entity.updateTime}
         WHERE
-            code = ${r'#'}{entity.code}
+            id = ${r'#'}{entity.id}
     </update>
 
     <!-- End Auto Common  -->

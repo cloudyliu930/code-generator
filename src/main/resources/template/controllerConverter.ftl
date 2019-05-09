@@ -3,7 +3,7 @@ package ${packagePath}.controller.converter;
 import ${packagePath}.vo.${entityList[0].upperCaseHumpName}Vo;
 import ${packagePath}.result.${entityList[0].upperCaseHumpName}Result;
 import ${packagePath}.po.${entityList[0].upperCaseHumpName}Entity;
-import com.rltx.framework.util.BeanHelper;
+import ${packagePath}.util.BeanLocalUtils;
 
 /**
  * ${entityList[0].tableName} controller转换类
